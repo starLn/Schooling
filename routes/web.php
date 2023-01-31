@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentsController;
+use App\Http\Controllers\ClassController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,8 @@ Route::get('/', function () {
 });
 
 Route::get('/students',[StudentsController::class, 'index']);
+
+Route::get('/class',[ClassController::class, 'index']);
 
 // Route::get('/about', function () {
 //     return 9*9;

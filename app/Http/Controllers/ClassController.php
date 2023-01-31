@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Student;
+use App\Models\ClassRoom;
 
-class StudentsController extends Controller
+
+class ClassController extends Controller
 {
     public function index()
     {
     // $nama = "budi";
     //orm:
-    $student = Student::all();
+    $class = ClassRoom::all();
     // dd($student);  
-    return view('student', ['studentList' => $student]);
+    return view('classroom', ['classList' => $class]);
 }
 }
