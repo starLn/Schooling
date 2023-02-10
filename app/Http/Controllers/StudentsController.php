@@ -12,11 +12,11 @@ class StudentsController extends Controller
     {
     // $nama = "budi";
     //orm:
-    // $student = Student::all();
+    $student = Student::with('class')->get();
     // // dd($student); 
     
     //QUERY BUILDER:GET
-    // return view('student', ['studentList' => $student]);
+    return view('student', ['studentList' => $student]);
     // $student = DB::table('students')->get();
     // dd($student);
     //QUERY BUILDER:INSERT

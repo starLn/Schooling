@@ -10,4 +10,10 @@ class ClassRoom extends Model
     use HasFactory;
     
     protected $table = 'class';
+
+    //ONE TO MANY
+    public function students()
+    {
+        return $this->hasMany(Student::class, 'class_id', 'id');
+    }
 }
