@@ -10,6 +10,7 @@
             <th>No.</th>
             <th>Name</th>
             <th>Students</th>
+            <th>Homeroom Teacher</th>
         </tr>
     </thead>
     <tbody>
@@ -26,6 +27,8 @@
             {{-- {{$student['name']}} <br> || DALAM ARRAY--}}
             @endforeach
         </td>
+        {{-- homeroomTeacher= nama relasi di class controller --}}
+        <td>{{$data->homeroomTeacher['name']}}</td>
         </tr>    
         @endforeach
     </tbody>

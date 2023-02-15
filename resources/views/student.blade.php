@@ -14,6 +14,7 @@
             {{-- <th>Class id</th> --}}
             <th>Class</th>
             <th>Extracurricular</th>
+            <th>Teacher</th>
         </tr>
     </thead>
     <tbody>
@@ -27,6 +28,7 @@
             <td>@foreach ($data ->extracurriculars as $item)
                 ~ {{$item->name}} <br>
             @endforeach</td>
+            <td>{{$data->class->homeroomTeacher['name']}}</td>
             {{-- <td>{{$data['extracurriculars']}}</td> = PAKAI ARRAY--}}
             {{-- <td>{{ $data->class['name']}}</td> --}}
 

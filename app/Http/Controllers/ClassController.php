@@ -13,7 +13,7 @@ class ClassController extends Controller
     // $nama = "budi";
     //orm:
     // $class = ClassRoom::all();
-    $class = ClassRoom::with('students')->get();
+    $class = ClassRoom::with('students','homeroomTeacher')->get();
     // dd($student);  
     return view('classroom', ['classList' => $class]);
 }
