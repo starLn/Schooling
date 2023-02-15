@@ -13,6 +13,7 @@
             <th>NIS</th>
             {{-- <th>Class id</th> --}}
             <th>Class</th>
+            <th>Extracurricular</th>
         </tr>
     </thead>
     <tbody>
@@ -23,6 +24,10 @@
             <td>{{ $data->gender }}</td>
             <td>{{ $data->nis }}</td>
             <td>{{ $data->class['name'] }}</td>
+            <td>@foreach ($data ->extracurriculars as $item)
+                ~ {{$item->name}} <br>
+            @endforeach</td>
+            {{-- <td>{{$data['extracurriculars']}}</td> = PAKAI ARRAY--}}
             {{-- <td>{{ $data->class['name']}}</td> --}}
 
         </tr>

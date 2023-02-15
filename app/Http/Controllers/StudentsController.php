@@ -12,7 +12,7 @@ class StudentsController extends Controller
     {
     // $nama = "budi";
     //orm:
-    $student = Student::with('class')->get();
+    $student = Student::with('class','extracurriculars')->get();
     // // dd($student); 
     
     //QUERY BUILDER:GET
