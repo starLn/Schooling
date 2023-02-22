@@ -10,9 +10,12 @@ class Student extends Model
 {
     use HasFactory;
 
-    // protected $fillable = [
-    //     'name','gender','nis','class_id'
-    // ];
+    protected $fillable = [
+        'name',
+        'gender',
+        'nis',
+        'class_id',
+    ];
     
     //MANY TO ONE
     public function class()

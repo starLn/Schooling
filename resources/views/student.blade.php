@@ -4,7 +4,7 @@
 <h1>Ini halaman Student</h1>
 
 <div class="my-5">
-    <a href="" class="btn btn-warning text-white">Add Data</a>
+    <a href="students/add" class="btn btn-warning text-white">Add Data</a>
 </div>
 
 <h3>Ini List Student</h3>

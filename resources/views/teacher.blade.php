@@ -2,6 +2,9 @@
 @section('title', 'Teachers')
 @section('content')
     <h1>Ini halaman Teacher</h1>
+    <div class="my-5">
+        <a href="" class="btn btn-warning text-white">Add Data</a>
+    </div>
     <h3>Teacher List</h3>
 
     <table class="table">

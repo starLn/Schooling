@@ -29,6 +29,9 @@ Route::get('/students',[StudentsController::class, 'index']);
 //show: nampilin detail
 Route::get('/student/{id}',
 [StudentsController::class, 'show']);
+Route::get('/students/add',[StudentsController::class, 'create']);
+Route::post('/students/added',[StudentsController::class, 'store']);
+
 
 
 Route::get('/class',[ClassController::class, 'index']);
