@@ -30,7 +30,10 @@
             <td>{{ $data->name }}</td>
             <td>{{ $data->gender }}</td>
             <td>{{ $data->nis }}</td>
-            <td><a href="student/{{$data->id}}">Detail</a></td>
+            <td>
+                <a href="student/{{$data->id}}">Detail</a>
+                <a href="/student-edit/{{$data->id}}">Edit</a>
+            </td>
             {{-- <td>{{ $data->class['name'] }}</td>
             <td>@foreach ($data ->extracurriculars as $item)
                 ~ {{$item->name}} <br>
