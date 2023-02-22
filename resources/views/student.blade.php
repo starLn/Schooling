@@ -2,6 +2,11 @@
 @section('title', 'Students')
 @section('content')
 <h1>Ini halaman Student</h1>
+
+<div class="my-5">
+    <a href="" class="btn btn-warning text-white">Add Data</a>
+</div>
+
 <h3>Ini List Student</h3>
 
 <table class="table">
@@ -11,10 +16,11 @@
             <th>Name</th>
             <th>Gender</th>
             <th>NIS</th>
+            <th>Action</th>
             {{-- <th>Class id</th> --}}
-            <th>Class</th>
+            {{-- <th>Class</th>
             <th>Extracurricular</th>
-            <th>Teacher</th>
+            <th>Teacher</th> --}}
         </tr>
     </thead>
     <tbody>
@@ -24,11 +30,12 @@
             <td>{{ $data->name }}</td>
             <td>{{ $data->gender }}</td>
             <td>{{ $data->nis }}</td>
-            <td>{{ $data->class['name'] }}</td>
+            <td><a href="student/{{$data->id}}">Detail</a></td>
+            {{-- <td>{{ $data->class['name'] }}</td>
             <td>@foreach ($data ->extracurriculars as $item)
                 ~ {{$item->name}} <br>
             @endforeach</td>
-            <td>{{$data->class->homeroomTeacher['name']}}</td>
+            <td>{{$data->class->homeroomTeacher['name']}}</td> --}}
             {{-- <td>{{$data['extracurriculars']}}</td> = PAKAI ARRAY--}}
             {{-- <td>{{ $data->class['name']}}</td> --}}
 

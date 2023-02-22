@@ -19,19 +19,27 @@ use App\Http\Controllers\ExtracurricularController;
 
 Route::get('/', function () {
     return view('home', [
-        'name' => 'cara fajar', 
-        'role' => 'admin',
+        'name' => 'Novita', 
+        'role' => 'Admin',
         'buah' => ['pisang', 'apel', 'jeruk','semangka', 'kiwi']
     ]);
 });
 
 Route::get('/students',[StudentsController::class, 'index']);
+//show: nampilin detail
+Route::get('/student/{id}',
+[StudentsController::class, 'show']);
+
 
 Route::get('/class',[ClassController::class, 'index']);
+Route::get('/class-detail/{id}',[ClassController::class, 'show']);
 
 Route::get('/extracurricular',[ExtracurricularController::class, 'index']);
+Route::get('/extracurricular-detail/{id}',[ExtracurricularController::class, 'show']);
 
 Route::get('/teacher',[TeacherController::class, 'index']);
+Route::get('/teacher-detail/{id}',[TeacherController::class, 'show']);
+
 
 // Route::get('/about', function () {
 //     return 9*9;

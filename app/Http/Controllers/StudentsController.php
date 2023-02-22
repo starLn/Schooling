@@ -12,7 +12,7 @@ class StudentsController extends Controller
     {
     // $nama = "budi";
     //orm:
-    $student = Student::with('class.homeroomTeacher','extracurriculars')->get();
+    $student = Student::get();
     // // dd($student); 
     
     //QUERY BUILDER:GET
@@ -121,10 +121,12 @@ class StudentsController extends Controller
     //     return $value * 2;
     // })->all();
     // dd($aaa);
-
-
-
-
-
 }
+    public function show($id)
+    {
+        // dd($id);
+        $student = Student::with(['class.homeroomTeacher', 'extracurriculars'])->findOrFail($id);
+        return view('student-detail', ['student' => $student]);
+        
+    }
 }
