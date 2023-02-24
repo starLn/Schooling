@@ -6,6 +6,11 @@
 <div class="my-5">
     <a href="students/add" class="btn btn-warning text-white">Add Data</a>
 </div>
+@if(Session::has('status'))
+    <div class="alert alert-success" role="alert">
+        {{Session::get('message')}}
+    </div>
+@endif
 
 <h3>Ini List Student</h3>
 

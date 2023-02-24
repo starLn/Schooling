@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Models\ClassRoom;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -150,8 +151,19 @@ class StudentsController extends Controller
         // $student->class_id = $request->class_id;
         // $student->save();
 
+        //validation input
+        //students: nama tabel
+        $validated = $request->validate([
+            'nis' => 'unique:students',
+            'body' => 'required',
+        ]);
+
         //mass assignment
         $student =Student::create($request->all());
+        if ($student) {
+            Session()->flash('status', 'success');
+            Session()->flash('message', 'Adding success!');
+        }
         return redirect('/students');
     }
     public function edit(Request $request, $id)
@@ -175,3 +187,4 @@ class StudentsController extends Controller
         return redirect('/students');
     }
 }
+ 
