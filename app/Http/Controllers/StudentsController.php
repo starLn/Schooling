@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StudentCreateRequest;
 use App\Models\Student;
 use App\Models\ClassRoom;
 use Illuminate\Contracts\Session\Session;
@@ -137,7 +138,7 @@ class StudentsController extends Controller
         return view('student-add', ['class' =>$class]);   
     }
     // Request $request: untuk menampung parameter yang dikirim 
-    public function store(Request $request)
+    public function store(StudentCreateRequest $request)
     {
         // dd($request->all());
 
@@ -153,10 +154,12 @@ class StudentsController extends Controller
 
         //validation input
         //students: nama tabel
-        $validated = $request->validate([
-            'nis' => 'unique:students',
-            'body' => 'required',
-        ]);
+        // $validated = $request->validate([
+        //     'nis' => 'unique:students|max:8|required',
+        //     'name' => 'max:20|required',
+        //     // 'gender' => 'required',
+        //     // 'class_id' => 'required'
+        // ]);
 
         //mass assignment
         $student =Student::create($request->all());
@@ -184,6 +187,29 @@ class StudentsController extends Controller
         // $student->class_id = $request->class_id;
         // $student->save();
         $student->update($request->all());
+        return redirect('/students');
+    }
+
+    public function delete($id)
+    {
+        $student = Student::findOrFail($id);
+        return view('student-delete', ['student' =>$student]);
+    }
+    public function destroy($id)
+    {
+        // dd($id);
+
+
+        //QUERY BUILDER
+        // $deleteStudent = DB::table('students')->where('id',$id)->delete();
+
+        //Eloquent
+        $deletedStudent = Student::findOrFail($id);
+        $deletedStudent->delete();
+        if ($deletedStudent) {
+            Session()->flash('status', 'success');
+            Session()->flash('message', 'Delete success!');
+        }
         return redirect('/students');
     }
 }
