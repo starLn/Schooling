@@ -3,8 +3,10 @@
 @section('content')
 <h1>Ini halaman Student</h1>
 
-<div class="my-5">
+<div class="my-5 d-flex justify-content-between">
     <a href="students/add" class="btn btn-warning text-white">Add Data</a>
+    <a href="/student-deleted" class="btn btn-info text-white">Show with Deleted Data</a>
+
 </div>
 @if(Session::has('status'))
     <div class="alert alert-success" role="alert">
