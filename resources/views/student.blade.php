@@ -55,6 +55,8 @@
         @endforeach
     </tbody>
 </table>
+<div class="my-5"></div>
+    {{$studentList->links()}}
     {{-- <ol>
         @foreach ($studentList as $data)
             <li>{{ $data->name}} | {{ $data->gender}} | {{ $data->nis}}

@@ -15,7 +15,7 @@ class StudentsController extends Controller
     {
     // $nama = "budi";
     //orm:
-    $student = Student::get();
+    $student = Student::paginate(15);
     // // dd($student); 
     
     //QUERY BUILDER:GET
