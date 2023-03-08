@@ -15,6 +15,14 @@
 @endif
 
 <h3>Ini List Student</h3>
+<div class="my-3 col-12 col-sm-8 col-md-4">
+    <form action="" method="get">
+        <div class="input-group mb-3">
+              <input type="text" class="form-control" name="keyword" placeholder="Keyword">
+              <button class="input-group-text btn btn-warning text-white">Search</button>
+          </div>
+    </form>
+</div>
 
 <table class="table">
     <thead>
@@ -23,6 +31,7 @@
             <th>Name</th>
             <th>Gender</th>
             <th>NIS</th>
+            <th>Class</th>
             <th>Action</th>
             {{-- <th>Class id</th> --}}
             {{-- <th>Class</th>
@@ -37,6 +46,7 @@
             <td>{{ $data->name }}</td>
             <td>{{ $data->gender }}</td>
             <td>{{ $data->nis }}</td>
+            <td>{{ $data->class->name }}</td>
             <td>
                 <a href="student/{{$data->id}}">Detail</a>
                 <a href="/student-edit/{{$data->id}}">Edit</a>
@@ -56,7 +66,8 @@
     </tbody>
 </table>
 <div class="my-5"></div>
-    {{$studentList->links()}}
+    {{-- withQueryString() == melakukan pencarian di next data table --}}
+    {{$studentList->withQueryString()->links()}}
     {{-- <ol>
         @foreach ($studentList as $data)
             <li>{{ $data->name}} | {{ $data->gender}} | {{ $data->nis}}

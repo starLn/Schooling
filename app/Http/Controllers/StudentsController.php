@@ -11,11 +11,20 @@ use Illuminate\Support\Facades\DB;
 
 class StudentsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+    $keyword = $request->keyword;
     // $nama = "budi";
     //orm:
-    $student = Student::paginate(15);
+    //searching  
+    $student = Student::with('class')
+    ->where('name', 'LIKE', '%'.$keyword.'%')
+    ->orWhere('gender', $keyword)
+    ->orWhere('nis','LIKE','%'.$keyword.'%')
+    ->orWhereHas('class', function($query) use($keyword) {
+        $query->where('name','LIKE', '%'.$keyword.'%');
+    })
+    ->paginate(15);
     // // dd($student); 
     
     //QUERY BUILDER:GET
