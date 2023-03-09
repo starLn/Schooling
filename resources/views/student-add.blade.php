@@ -13,7 +13,7 @@
     </div> 
     @endif
     {{-- pesan error/alert --}}
-    <form action="added" method="post">
+    <form action="added" method="post" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
             <label for="name">Name</label>
@@ -40,6 +40,12 @@
                 @endforeach
             </select>
         </div>
+        <div class="mb-3">
+            <label for="photo">Image</label>
+            <div class="input-group">
+                <input type="file" class="form-control" id="photo" name="photo">
+            </div>
+          </div>
         <div class="mb-3">
             <button class="btn btn-warning" type="submit">Simpan</button>
         </div>

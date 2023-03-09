@@ -172,11 +172,16 @@ class StudentsController extends Controller
 
         //mass assignment
         $student =Student::create($request->all());
-        if ($student) {
-            Session()->flash('status', 'success');
-            Session()->flash('message', 'Adding success!');
-        }
-        return redirect('/students');
+        $extension = $request->file('photo')->getClientOriginalExtension();
+        $newName = $request->name.$request->nis.'-'.now()->timestamp.'.'.$extension;
+        return $request->file('photo')->storeAs('photo',$newName);
+        
+
+        // if ($student) {
+        //     Session()->flash('status', 'success');
+        //     Session()->flash('message', 'Adding success!');
+        // }
+        // return redirect('/students');
     }
     public function edit(Request $request, $id)
     {
