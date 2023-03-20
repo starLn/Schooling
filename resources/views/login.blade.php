@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Cool Login Page</title>
+    <title>Login Page</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <!-- Custom CSS -->
@@ -63,21 +63,25 @@
             <div class="card-header">
               <h4>Halaman Login</h4>
             </div>
+            @if(Session::has('status'))
+            <div class="alert alert-danger" role="alert">
+                {{Session::get('message')}}
+            </div>
+            @endif
             <div class="card-body">
-              <form>
+              <form method="POST" action="">
+                @csrf
+                
                 <div class="form-group">
-                  <label for="username">Username</label>
-                  <input type="text" class="form-control" id="username" placeholder="Enter username">
+                  <label for="email">Email</label>
+                  <input type="email" name="email" class="form-control" id="email" placeholder="Enter email">
                 </div>
                 <div class="form-group">
                   <label for="password">Password</label>
-                  <input type="password" class="form-control" id="password" placeholder="Enter password">
+                  <input type="password" name="password" class="form-control" id="password" placeholder="Enter password">
                 </div>
                 <button type="submit" class="btn btn-login">Login</button>
               </form>
-            </div>
-            <div class="card-footer">
-              <a href="#">Forgot Password?</a>
             </div>
           </div>
         </div>
