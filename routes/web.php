@@ -17,17 +17,17 @@ use App\Http\Controllers\ExtracurricularController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+// Route::get('/', function () {
+//     return view('login');
+// });
 Route::get('/', function () {
-    return view('home', [
-        'name' => 'Novita', 
-        'role' => 'Admin',
-        'buah' => ['pisang', 'apel', 'jeruk','semangka', 'kiwi']
-    ]);
+    return view('home');
 });
 
-Route::get('/login',[AuthController::class, 'login'])->name('login');
-Route::post('/login',[AuthController::class, 'authenticating']);
+Route::get('/login',[AuthController::class, 'login'])->name('login')->middleware('guest');
+Route::post('/login',[AuthController::class, 'authenticating'])->middleware('guest');
+
+Route::get('/logout',[AuthController::class, 'logout'])->middleware('auth');
 
 Route::get('/students',[StudentsController::class, 'index'])->middleware('auth');
 //show: nampilin detail

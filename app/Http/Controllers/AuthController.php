@@ -30,4 +30,16 @@ class AuthController extends Controller
         return redirect('/login');
 
     }
+    public function logout(Request $request)
+    {
+        // dd('ini adalah logout');
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        
+        Session()->flash('status', 'success');
+        Session()->flash('message', 'Anda telah logout!');
+
+        return redirect('/login');
+    }
 }
