@@ -1,0 +1,430 @@
+CTRL + J -> MUNCULIN TERMINAL
+
+Migrasi tabel ke db:
+php artisan migrate
+
+Akses server local:
+php artisan serve
+
+Cek route list:
+php artisan route:list
+
+Buat table:
+* buat nama table menjadi plural (s)
+php artisan make:migration create_example_table --create=example
+php artisan migrate
+
+Nambahin colum di table:
+php artisan make:migrate add_gender_column_to_students_table
+
+Rollback migration
+php artisan migrate:rollback
+
+Rollback pada beberapa batch:
+php artisan migrate:rollback --step=2
+
+Change attributes:
+php artisan make:migration change_gender_attributes_in_students_table
+
+Buat relasi table:
+$table->unsignedBigInteger('class_id')->required();
+$table->foreign('class_id')->references('id')->on('class');
+
+Drop foreign key:
+$table->dropForeign(['class_id']);
+
+Can't delete if there is student(s) on the class table (Relation):
+->onDelete('restrict');
+
+Create model:
+php artisan make:model Student
+
+Query jika table singular pada sebuah model:
+protected $table = 'students';
+
+Set primary key pada model jika id di primary key bukan 'id':
+protected $primaryKey = 'id_student';
+*kalau udah 'id' ga perlu pakai query tsb.
+
+Kalau tabelnya nggak increment di model:
+public $incrementing = false;
+*kalau udah di set di db auto_increment ga perlu query tsb.
+
+Misal id-nya bukan int seperti M01,M02 di model:
+protected $keyType = 'string';
+
+Kalau ga bikin created_at -- update_at query modelnya:
+public $timestamps = false;
+*kalau udah di set di db created_at -- update_at ga perlu query tsb.
+
+Buat controller:
+php artisan make:controller StudentsController
+
+Akses controller di route:
+use App\Http\Controllers\StudentController;
+* gunakan path directori dari controller yang akan digunakan
+
+Var_dump pada controller:
+dd('test');
+
+Query ambil data dari database:
+1. Eloquent orm (recommended)
+2. query builder
+3. raw query
+
+Masukin data dengan coding | bukan dengan insert phpmyadmin:
+*database seeding (seeder) |Nama+Seeder
+php artisan make:seeder ClassSeeder
+
+Setelahnya, insert lewat terminal
+php artisan db:seed --class=ClassSeeder
+
+DATABASE SEEDER KHUSUS UNTUK TABLE YANG MASIH KOSONG
+karena jika sudah ada isinya akan error.
+
+KALAU MASIH MAU SEEDER (TAPI BAKALAN NGEHAPUS SEMUA DATA YANG ADA):
+Truncate -> disable foreign key
+Schema::disableForeignKeyConstraints();
+ClassRoom::truncate();
+Schema::enableForeignKeyConstraints();
+
+Insert multiple data dengan seeder:
+pakai array
+
+Menjalankan seeder sekaligus (lebih dari 1):
+*PARENT TABLE HARUS YANG PALING ATAS DARI PADA CHILD TABLE (YANG ADA FOREIGN KEY DARI FOREIGN KEY YANG DI TABLE RELASI)
+php artisan db:seed  
+
+Query kalau modelnya singular:
+protected $table = 'class';
+*untuk menunjukkan table yang dimaksud
+
+Edit 'unique' dalam kolom di migration:
+$table->string('name')->unique()->change();
+
+Make factory:
+using extension: ctrl + shift + p -> ketik nama fatory 
+-> apakah ada model yang berhubungan?(Yes/No?) 
+-> if yes (ketik nama model)
+-> tunggu sampai factory dibuat
+
+Already Install FakerPHP
+*https://fakerphp.github.io/
+*different dev non dev:https://stackoverflow.com/questions/19117871/what-is-the-difference-between-require-and-require-dev-sections-in-composer-json
+
+Buat faker:
+Student::factory()->count(19)->create();
+Klik kanan class (Factory) -> import class -> faker/factory -> ketik nama (faker/whatever) -> enter ->path use bertambah 'AS'
+*Insert factory ke seeder: php artisan db:seed --class=StudentSeede
+
+Query Builder:
+
+* GET: 
+$student = DB:: 
+(klik kanan -> import class -> agar class DB dapat diakses)
+
+Eloquent:
+* GET : 
+
+
+COLLECTIONS
+$nilaiRataRata = collect($nilai)->avg();
+dd($nilaiRataRata);
+
+CONTAINS: cek apakah sebuah array memiliki sesuatu
+
+ELOQUENT RELATIONSHIP:
+MANY TO ONE: 
+ public function user()
+    {
+        return $this->belongsTo(User::class, 'foreign_key', 'other_key');
+    }
+
+cara 1: LAZY LOADING
+Lazy loading:
+select satu satu
+select * from student where class = 1A
+select * from student where class = 1B
+select * from student where class = 1C
+select * from student where class = 1D
+
+
+ DI VIEW ->  <td>{{ $data->class['name']}}</td>
+
+cara 2: EAGER LOADING (paling bagus)
+EAGER LOADING:
+select * from table class
+select * from student where class in (1a,1b,1c,1d)
+DI CONTROLLERS + VIEW -> $student = Student::with('class')->get();
+
+<td>{{ $data->class['name'] }}</td>
+
+ONE TO MANY:
+    public function students()
+    {
+        return $this->hasMany(Student::class, 'class_id', 'id');
+    }
+
+Many to Many Relationship:
+php artisan make:migration create_student_curricular_table
+*untuk pivotable student_id dan extracricular_id
+*rename nama table: rollback, rename manual by file di database migration di vsc
+*setelahnya ubah isi file terkait yang masih ada nama table old-nya
+
+Menambahkan kelas (array) ke controller lainnya (case: student - extraculiculars)
+*Students controllers -> pada bagian array '[]' tambahkan kelas extracurricular
+
+Edit table (case:class):
+php artisan make:migration add_teacher_id_column_to_class_table
+
+*belongsto
+*hasmany
+*belongstomany
+
+{{-- homeroomTeacher= nama relasi di class controller --}}
+        <td>{{$data->homeroomTeacher['name']}}</td>
+        </tr>   
+
+NESTED RELATIONSHIP:
+relationship yang bersarang= students->class->teacher
+*case: ngga ada relasi antara student dengan teacher adanya class (class_teacher)
+$student = Student::with('class.homeroomTeacher','extracurriculars')->get();
+*dengan menambahkan tanda titik '.'
+*cara baca:
+relationshipnya->student - class
+baru dipanggil: class - homeroomTeacher
+manggil class di VIEW:
+<td>{{$data->class->homeroomTeacher['name']}}</td>
+
+Route direct link (href):
+<td><a href="student/{{$data->id}}">Detail</a></td>
+
+Edit Tampilan error:findOrFail
+$student = Student::findOrFail($id);
+
+Data belongsTo ke halaman detail:
+<td>{{$student->class->name}}</td>
+<td>{{$student->class->homeroomTeacher->name}}</
+
+Route & direct button:
+Route::get('/students/add',[StudentsController::class, 'create']);
+<a href="students/add" class="btn btn-warning text-white">Add Data</a>
+public function create()
+    {
+    return view('student-add') ;   
+    }
+
+Mengambil class dari database:
+$class = ClassRoom::select('id','name')->get();
+<option value="">Select one</option>
+                @foreach ($class as $item)
+                    <option value="{{$item->id}}">{{$item->name}}</option>
+                @endforeach
+
+Proses inputan:
+    <form action="student" method="POST">
+Tambahkan CSRF DIBAWAH FORM:@csrf
+Route::post('/student',[StudentsController::class, 'store']);
+
+Insert to database:
+// Student= nama tabel
+        $student = new Student;
+        $student->name = $request->name;
+        $student->gender = $request->gender;
+        $student->nis = $request->nis;
+        $student->class_id = $request->class_id;
+        $student->save();
+//mass assignment
+        $student->create($request->all());
+*fillable: kasih tau modelnya dulu yg diisi kolom apa aja
+protected $fillable = [
+        'name','gender','nis','class_id'
+    ];
+
+
+**Name pada form harus sama dengan di kolom database
+
+Redirect setelah simpan:
+        return redirect('/students');
+
+Session flash:
+Session()->flash('status', 'success');
+Session()->flash('message', 'Adding success!');
+
+Form Validation + flash message:
+//validation input
+        //students: nama tabel
+        $validated = $request->validate([
+            'nis' => 'unique:students|max:8|required',
+            'name' => 'max:20|required',
+            // 'gender' => 'required',
+            // 'class_id' => 'required'
+        ]);
+
+1 File validation:
+php artisan make:request StudentCreateRequest
+buka folder request
+public function store(StudentCreateRequest $request)
+    {
+*Gnti kelas yang awalnya Request menjadi StudentCreateRequest (sesuai nama yang dimake di artisan).)
+
+
+Custom error message:
+ public function messages()
+    {
+        return[
+            'nis.required' => 'NIS wajib diisi!',
+            'nis.max' => 'NIS maksimal :max!',
+            'name.required' => 'Nama wajib diisi!',
+            'gender.required' => 'Gender wajib diisi!',
+            'class_id.required' => 'Class wajib diisi!',
+        ];
+    }
+
+Delete:
+//QUERY BUILDER
+        // $deleteStudent = DB::table('students')->where('id',$id)->delete();
+
+        //Eloquent
+        $deletedStudent = Student::findOrFail($id);
+        $deletedStudent->delete();
+        if ($deletedStudent) {
+            Session()->flash('status', 'success');
+            Session()->flash('message', 'Delete success!');
+        }
+        return redirect('/students');
+
+Soft delete:
+use SoftDeletes;
+func UP:
+            $table->softDeletes();
+func DOWN:
+            $table->dropSoftDeletes();
+
+Cara memunculkan lagi data soft deletes:
+    $student = Student::withTrashed()->get();
+
+Memunculkan list data dari soft deleted:
+        $deletedStudent= Student::onlyTrashed()->get();
+
+PAGINATION:
+    $student = Student::simplePaginate(15);	//1x query TIDAK COUNT DATA
+    $student = Student::paginate(15);		//2x query COUNT DATA
+
+    {{$studentList->links()}}		//menampilkan links previous & next
+
+SEARCH DATA
+ * withQueryString() == melakukan pencarian di next data table
+    {{$studentList->withQueryString()->links()}}
+
+MENAMPILKAN KEYWORD SEARCHIHNG
+ $keyword = $request->keyword;
+    // $nama = "budi";
+    //orm:
+    //searching  
+    $student = Student::with('class')
+    ->where('name', 'LIKE', '%'.$keyword.'%')
+    ->orWhere('gender', $keyword)
+    ->orWhere('nis','LIKE','%'.$keyword.'%')
+    ->orWhereHas('class', function($query) use($keyword) {
+        $query->where('name','LIKE', '%'.$keyword.'%');
+    })
+    ->paginate(15);
+
+
+ARROW SETTING BOOTSTRAP | AppServiceProvider.php
+->   public function boot()
+    {
+        Paginator::useBootstrapFive();
+
+ADD COLUMN IMAGE:
+php artisan make:migration add_image_column_to_students_table
+-> colstring -> extention php
+-> hascol -> Schema::hasColumn
+
+SETTING FILE IMAGE PATH
+1. Open filesystem.php
+2. choose public (for image public access)
+3. setting FILESYSTEM_DISK= (public preffered atau menyesuaikan)
+4. on blade add enctype="multipart/form-data" on HEAD FORM
+
+EXTENSION + IMAGE NAMES
+$extension = $request->file('photo')->getClientOriginalExtension();
+        $newName = $request->name.'-'.$request->nis.'.'.$extension;
+        return $request->file('photo')->storeAs('photo',$newName);
+    
+LAH KALAU DOUBLE DATA GIMANA? PAKAI TIMESTAMP
+$extension = $request->file('photo')->getClientOriginalExtension();
+        $newName = $request->name.'-'.now()->timestamp.'-'.$extension;
+        return $request->file('photo')->storeAs('photo',$newName);
+
+JANGAN LUPA ADD FILLABLE-MODEL UNTUK AKSES IMAGE COLUMN
+protected $fillable = [
+        'name',
+        'gender',
+        'nis',
+        'class_id',
+        'image',
+    ];
+    
+include image pada request
+        $request['image'] = $newName;
+
+Menampilkan data foto/file foto ke detail:
+1. php artisan storage:link (pindah file dari folder storage ke folder public agar bisa diakses)
+2. buat script div di blade:
+<div class="my-3">
+        <img src="{{asset('storage/photo/'.$student->image)}}" alt="">
+    </div>
+
+Menampilkan default photo (students yang belum punya foto):
+@else
+        <img src="{{asset('images/user.png')}}" alt="" width="200px">
+        @endif
+9:00
+
+
+Membuat foreign key roles:
+php artisan make:migration add_role_id_column_to_users_table
+
+Implementasi Middleware untuk cek login:
+tambahkan ->middleware('auth') di akhir route
+buatlah route login sesuai dengan nama di authenticate.php /middleware
+Route::get('/login',[AuthController::class, 'login'])->name('login');
+
+Menampilkan user yang sedang login:
+{{Auth::user()->name}}
+
+User telah login, menghindar dari halaman login:
+1. ->middleware('guest'); pada web.php
+2. ganti pada     public const HOME = '/'; di RouteServiceProvider.php
+
+Fitur logout:
+Route::get('/logout',[AuthController::class, 'logout'])->middleware('auth');
+
+Explore middleware class fun
+
+Membatasi hak akses
+buat middleware admin:
+php artisan make:middleware MustAdmin
+2. daftar middleware tsb ke dalam Kernel.php
+3. copykan namespace di file middleware (MustAdmin) App\Http\Middleware ke dalam class protected $routeMiddleware = []
+4. copykan nama middleware tsb (MustAdmin) ke dalam pathnya App\Http\Middleware\MustAdmin
+5.  if (Auth::user()->role_id != 1){
+            abort(404);
+        }
+        return $next($request);
+untuk melakukan cek jika hanya admin yang dapat melakukan hak akses selainnya akan dilakukan abort 404 page
+
+buat middleware lainnya:
+php artisan make:middleware MustAdminOrTeacher
+
+
+Blade: batas hak akses button
+@if (Auth::user()->role_id != 1 && Auth::user()->role_id != 2)
+                -
+                @else
+If Symbolic link doesn't work, try this:
+rm public/storage
+php artisan optimize:clear
+php artisan storage:link
