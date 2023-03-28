@@ -40,6 +40,13 @@ Route::get('/student-delete/{id}',[StudentsController::class, 'delete'])->middle
 Route::delete('/student-destroy/{id}',[StudentsController::class, 'destroy'])->middleware(['auth','must-admin']);
 Route::get('/student-deleted',[StudentsController::class, 'deletedStudent'])->middleware(['auth','must-admin']);
 Route::get('/student/{id}/restore',[StudentsController::class, 'restore'])->middleware(['auth','must-admin']);
+//atau pakai cara simple:
+// Route::middleware(['auth','must-admin-or-teacher'])->group(function(){
+//     Route::post('/student', [StudentController::class, 'store']);
+//     Route::get('/student-edit/{id}', [StudentController::class, 'edit']);
+//     Route::put('/student/{id}',[StudentController::class,'update']);
+
+// });
 
 Route::get('/class',[ClassController::class, 'index'])->middleware('auth')->middleware('auth');
 Route::get('/class-detail/{id}',[ClassController::class, 'show'])->middleware('auth');
