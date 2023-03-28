@@ -48,10 +48,15 @@
             <td>{{ $data->nis }}</td>
             <td>{{ $data->class->name }}</td>
             <td>
+                @if (Auth::user()->role_id != 1 && Auth::user()->role_id != 2)
+                -
+                @else
                 <a href="student/{{$data->id}}">Detail</a>
                 <a href="/student-edit/{{$data->id}}">Edit</a>
+                @endif
+                @if (Auth::user()->role_id == 1)
                 <a href="/student-delete/{{$data->id}}">Delete</a>
-
+                @endif
             </td>
             {{-- <td>{{ $data->class['name'] }}</td>
             <td>@foreach ($data ->extracurriculars as $item)

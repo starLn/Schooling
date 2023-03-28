@@ -31,15 +31,15 @@ Route::get('/logout',[AuthController::class, 'logout'])->middleware('auth');
 
 Route::get('/students',[StudentsController::class, 'index'])->middleware('auth');
 //show: nampilin detail
-Route::get('/student/{id}',[StudentsController::class, 'show'])->middleware('auth');
-Route::get('/students/add',[StudentsController::class, 'create'])->middleware('auth');
-Route::post('/students/added',[StudentsController::class, 'store'])->middleware('auth');
-Route::get('/student-edit/{id}',[StudentsController::class, 'edit'])->middleware('auth');
-Route::put('/student/{id}',[StudentsController::class, 'update'])->middleware('auth');
+Route::get('/student/{id}',[StudentsController::class, 'show'])->middleware(['auth','must-admin-or-teacher']);
+Route::get('/students/add',[StudentsController::class, 'create'])->middleware(['auth','must-admin-or-teacher']);
+Route::post('/students/added',[StudentsController::class, 'store'])->middleware(['auth','must-admin-or-teacher']);
+Route::get('/student-edit/{id}',[StudentsController::class, 'edit'])->middleware(['auth','must-admin-or-teacher']);
+Route::put('/student/{id}',[StudentsController::class, 'update'])->middleware(['auth','must-admin-or-teacher']);
 Route::get('/student-delete/{id}',[StudentsController::class, 'delete'])->middleware(['auth','must-admin']);
-Route::delete('/student-destroy/{id}',[StudentsController::class, 'destroy'])->middleware('auth');
-Route::get('/student-deleted',[StudentsController::class, 'deletedStudent'])->middleware('auth');
-Route::get('/student/{id}/restore',[StudentsController::class, 'restore'])->middleware('auth');
+Route::delete('/student-destroy/{id}',[StudentsController::class, 'destroy'])->middleware(['auth','must-admin']);
+Route::get('/student-deleted',[StudentsController::class, 'deletedStudent'])->middleware(['auth','must-admin']);
+Route::get('/student/{id}/restore',[StudentsController::class, 'restore'])->middleware(['auth','must-admin']);
 
 Route::get('/class',[ClassController::class, 'index'])->middleware('auth')->middleware('auth');
 Route::get('/class-detail/{id}',[ClassController::class, 'show'])->middleware('auth');
